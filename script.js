@@ -4,6 +4,7 @@ const guntingBtn = document.getElementById('gunting');
 const kertasBtn = document.getElementById('kertas');
 const batuBtn = document.getElementById('batu');
 let humanChoice ;
+let score = 0;
 
 
 
@@ -33,6 +34,8 @@ window.addEventListener("keydown", (event) => {
     const gameButtons = document.querySelectorAll('.game-btn');
     gameButtons.forEach(btn => {
       btn.style.display = 'none';
+
+      score = 0 ;
     });
     
     console.log("Game reset to start state.");
@@ -58,6 +61,7 @@ function Playround( humanChoice , ComputerChoice ){
 
     if (humanChoice === ComputerChoice){
         console.log("draw");
+        console.log(score);
         return "draw";
     }
 
@@ -69,10 +73,13 @@ function Playround( humanChoice , ComputerChoice ){
     };
 
     if (win[humanChoice] === ComputerChoice) {
+      score ++ ;
         console.log("player wins");
+        console.log(score);
         return "win";
     } else {
         console.log("you lose");
+        console.log(score);
         return "lose";}
         }
     
