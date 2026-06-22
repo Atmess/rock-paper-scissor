@@ -1,0 +1,27 @@
+
+#game-window {
+  width: 300px;
+  border: 1px solid #3b5998; /* Classic FB blue border */
+  font-family: Arial, sans-serif;
+}
+
+#window-header {
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+#window-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+}
+
+/* Hide game buttons initially */
+.game-btn {
+  display: none;
+}
