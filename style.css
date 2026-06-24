@@ -25,3 +25,21 @@
 .game-btn {
   display: none;
 }
+
+.bessof {
+  display: none;
+}
+
+#displayscorepage{
+    width: 300px;
+  border: 1px solid #3b5998; /* Classic FB blue border */
+  font-family: Arial, sans-serif;
+}
+#score{
+    padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background-color: #fff;
+}

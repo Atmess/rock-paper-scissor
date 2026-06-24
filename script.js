@@ -3,41 +3,61 @@ const startBtn = document.getElementById('startgame');
 const guntingBtn = document.getElementById('gunting');
 const kertasBtn = document.getElementById('kertas');
 const batuBtn = document.getElementById('batu');
+const threebtn = document.getElementById('bestofthree');
+const fivebtn = document.getElementById('bestoffive');
+const playerscoredisplay = document.getElementById('yourScoreTextID');
+const comscoredisplay = document.getElementById('computerScoreTextID');
+const winningtext = document.getElementById('textscoringpage');
+
 let humanChoice ;
 let score = 0;
+let comscore=0;
+let winningscore=0;
 
-
-
+playerscoredisplay.innerText=0;
+comscoredisplay.innerText=0;
 // 2. Create the function to show the buttons
 function startGame() {
     
-  guntingBtn.style.display = 'inline-block';
-  kertasBtn.style.display = 'inline-block';
-  batuBtn.style.display = 'inline-block';
+
+  threebtn.style.display = 'inline-block';
+  fivebtn.style.display = 'inline-block';
   
   // Optionally hide the start button after clicking
-  startBtn.style.display = 'none'; 
+  startBtn.style.display = 'none';
+
 }
 
 // 3. Attach the event listener
 startBtn.addEventListener('click', startGame);
 
 // Listen for the "Enter" key anywhere on the page
+// FIXED: Listen for the "Enter" key to completely wipe the game back to the absolute start
 window.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     
     // 1. Show the start button again
-    const startBtn = document.getElementById('startgame');
     startBtn.style.display = 'inline-block';
     
     // 2. Hide the game buttons (Gunting, Kertas, Batu)
     const gameButtons = document.querySelectorAll('.game-btn');
     gameButtons.forEach(btn => {
       btn.style.display = 'none';
-
-      score = 0 ;
     });
+
+    // 3. Hide the mode buttons (they should only show AFTER clicking Start Game)
+    threebtn.style.display = 'none';
+    fivebtn.style.display = 'none';
     
+    // 4. Clear the text alert
+    winningtext.innerText = "";
+
+    // 5. Hard reset all data back to clean slate
+    score = 0;
+    comscore = 0;
+    winningscore = 9 ; // Strictly lowercase
+    
+    displayscore(); // Force HTML scoreboard back to 0 - 0
     console.log("Game reset to start state.");
   }
 });
@@ -58,10 +78,8 @@ function getComputerChoice() {
 
 function Playround( humanChoice , ComputerChoice ){
 
-
     if (humanChoice === ComputerChoice){
         console.log("draw");
-        console.log(score);
         return "draw";
     }
 
@@ -75,20 +93,23 @@ function Playround( humanChoice , ComputerChoice ){
     if (win[humanChoice] === ComputerChoice) {
       score ++ ;
         console.log("player wins");
-        console.log(score);
-        return "win";
+      
+      ;
     } else {
+      comscore++;
         console.log("you lose");
-        console.log(score);
-        return "lose";}
-        }
+      }
+        
+      console.log(score ,comscore);
+      displayscore();
+      checkWinCondition();
+    }
     
 
 batuBtn.addEventListener("click", () => {
     humanChoice = "rock";
     const ComputerChoice = getComputerChoice();
-    console.log("You chose: " + humanChoice);
-console.log("Computer Chose : "+ComputerChoice);
+   console.log("You chose: " + humanChoice + " | Computer chose: " + ComputerChoice);
      Playround(humanChoice ,ComputerChoice);
     ;
     // You can call your playRound(humanChoice, getComputerChoice()) here!
@@ -97,17 +118,82 @@ console.log("Computer Chose : "+ComputerChoice);
 kertasBtn.addEventListener("click", () => {
     humanChoice = "paper";
       const ComputerChoice = getComputerChoice();
-console.log("You chose: " + humanChoice);
-console.log("Computer Chose :" + ComputerChoice);
+console.log("You chose: " + humanChoice + " | Computer chose: " + ComputerChoice);
      Playround(humanChoice ,ComputerChoice);
 });
 
 guntingBtn.addEventListener("click", () => {
     humanChoice = "scissors";
       const ComputerChoice = getComputerChoice();
-console.log("You chose: " + humanChoice);
-console.log("Computer Chose :" + ComputerChoice);
+console.log("You chose: " + humanChoice + " | Computer chose: " + ComputerChoice);
      Playround(humanChoice ,ComputerChoice);
 })
 
+
+function bestofthree() {
+
+  winningscore = 2;
+  prepareGame();
+}
+
+threebtn.addEventListener('click', bestofthree);
+
+function bestoffive() {
+
+  winningscore= 3 ;
+prepareGame();
+
+}
+
+fivebtn.addEventListener('click', bestoffive);
+
+function checkWinCondition() {
+  // Instead of checking === 3 or === 5, it checks the variable
+  if (score === winningscore) {
+    console.log(`You win the match!`);
+    winningtext.innerText=("You win the match!");
+    resetGame();
+
+  } else if (comscore === winningscore) {
+    console.log(`Computer wins the match!`);
+    winningtext.innerText=("compter win the match!");
+    resetGame();
+  }
+}
+
+// Both buttons use this exact same setup function now!
+function prepareGame() {
+  guntingBtn.style.display = 'inline-block';
+  kertasBtn.style.display = 'inline-block';
+  batuBtn.style.display = 'inline-block';
+
+  threebtn.style.display = 'none';
+  fivebtn.style.display = 'none'; 
+  winningtext.innerText=("");
+
+  score = 0;
+  comscore = 0;
+}
+
+function resetGame() {
+  // 1. Hide the weapon buttons again
+  guntingBtn.style.display = 'none';
+  kertasBtn.style.display = 'none';
+  batuBtn.style.display = 'none';
+
+  // 2. Bring back the Mode buttons so they can play again
+  threebtn.style.display = 'inline-block';
+  fivebtn.style.display = 'inline-block';
+
+  // 3. Wipe the memory clean
+  score = 0;
+  comscore = 0;
+  winningscore = 0;
+
+  displayscore();
+}
+function displayscore(){
+  playerscoredisplay.innerText = score ;
+  comscoredisplay.innerText = comscore ;
+}
 
