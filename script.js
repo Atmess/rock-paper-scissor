@@ -35,6 +35,8 @@ startBtn.addEventListener('click', startGame);
 // FIXED: Listen for the "Enter" key to completely wipe the game back to the absolute start
 window.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
+
+    event.preventDefault();
     
     // 1. Show the start button again
     startBtn.style.display = 'inline-block';
@@ -51,15 +53,17 @@ window.addEventListener("keydown", (event) => {
     
     // 4. Clear the text alert
     winningtext.innerText = "";
-
+   
     // 5. Hard reset all data back to clean slate
     score = 0;
     comscore = 0;
     winningscore = 9 ; // Strictly lowercase
     
-    displayscore(); // Force HTML scoreboard back to 0 - 0
+     // Force HTML scoreboard back to 0 - 0
     console.log("Game reset to start state.");
+     displayscore();
   }
+  
 });
 
 function getComputerChoice() {
