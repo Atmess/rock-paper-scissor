@@ -8,6 +8,8 @@ const fivebtn = document.getElementById('bestoffive');
 const playerscoredisplay = document.getElementById('yourScoreTextID');
 const comscoredisplay = document.getElementById('computerScoreTextID');
 const winningtext = document.getElementById('textscoringpage');
+const playerchoice = document.getElementById('yourchoice');
+const comchoice = document.getElementById('comchoice');
 
 let humanChoice ;
 let score = 0;
@@ -16,6 +18,8 @@ let winningscore=0;
 
 playerscoredisplay.innerText=0;
 comscoredisplay.innerText=0;
+comchoice.innerText='';
+playerchoice.innerText='';
 // 2. Create the function to show the buttons
 function startGame() {
     
@@ -84,7 +88,7 @@ function Playround( humanChoice , ComputerChoice ){
 
     if (humanChoice === ComputerChoice){
         console.log("draw");
-        return "draw";
+
     }
 
     const win ={
@@ -105,8 +109,12 @@ function Playround( humanChoice , ComputerChoice ){
       }
         
       console.log(score ,comscore);
+            playerchoice.innerText=humanChoice;
+      comchoice.innerText=ComputerChoice;
       displayscore();
       checkWinCondition();
+
+
     }
     
 
@@ -131,6 +139,7 @@ guntingBtn.addEventListener("click", () => {
       const ComputerChoice = getComputerChoice();
 console.log("You chose: " + humanChoice + " | Computer chose: " + ComputerChoice);
      Playround(humanChoice ,ComputerChoice);
+     
 })
 
 
@@ -160,7 +169,7 @@ function checkWinCondition() {
 
   } else if (comscore === winningscore) {
     console.log(`Computer wins the match!`);
-    winningtext.innerText=("compter win the match!");
+    winningtext.innerText=("you lost the match!");
     resetGame();
   }
 }
@@ -193,11 +202,16 @@ function resetGame() {
   score = 0;
   comscore = 0;
   winningscore = 0;
-
+  
+  resetdisplay();
   displayscore();
+ 
 }
 function displayscore(){
   playerscoredisplay.innerText = score ;
   comscoredisplay.innerText = comscore ;
 }
-
+function resetdisplay(){
+  playerchoice.innerText="";
+  comchoice.innerText="";
+}
