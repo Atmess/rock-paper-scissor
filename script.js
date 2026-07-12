@@ -1,69 +1,112 @@
-// 1. Get the buttons from the DOM
-const startBtn = document.getElementById('startgame');
-const guntingBtn = document.getElementById('gunting');
-const kertasBtn = document.getElementById('kertas');
-const batuBtn = document.getElementById('batu');
-const threebtn = document.getElementById('bestofthree');
-const fivebtn = document.getElementById('bestoffive');
-const playerscoredisplay = document.getElementById('yourScoreTextID');
-const comscoredisplay = document.getElementById('computerScoreTextID');
-const winningtext = document.getElementById('textscoringpage');
-const playerchoice = document.getElementById('yourchoice');
-const comchoice = document.getElementById('comchoice');
+const getdate= (() => {
+                const yearstime = document.getElementById('year');
+                const monthtime = document.getElementById('month');
+                const daytime = document.getElementById('day');
+                const datetime = document.getElementById('date-time');
 
-let humanChoice ;
-let score = 0;
-let comscore=0;
+                yearstime.textContent = new Date().getFullYear(); 
+                monthtime.textContent = new Date().toLocaleString('default', { month: 'short' }) ;
+                daytime.textContent = new Date().toLocaleString('default', { weekday: 'short' }) ;
+                datetime.textContent = new Date().getDate();
+})();
+const sidebar = (() => {
+                const toggleBtn = document.getElementById('sidebarbtn');
+                const sidebar = document.getElementById('sidebar');
+
+                toggleBtn.addEventListener('click', function() {
+                // Toggle the 'open' class on the sidebar
+                sidebar.classList.toggle('open');
+                // Listen for a click on the button
+                });   
+
+})();
+// 1. Get the buttons from the DOM
+const rockscissorgame= (()=>{
+const windows = document.getElementById('window-body')
+const startBtn = document.getElementById('startgame');
+const winningtext = document.getElementById('textscoringpage');
+
+
+
 let winningscore=0;
 
-playerscoredisplay.innerText=0;
-comscoredisplay.innerText=0;
-comchoice.innerText='';
-playerchoice.innerText='';
-// 2. Create the function to show the buttons
-function startGame() {
-    
+const win ={
+        rock : "scissors" ,
+        paper : "rock" ,
+        scissors : "paper" ,};
 
-  threebtn.style.display = 'inline-block';
-  fivebtn.style.display = 'inline-block';
-  
-  // Optionally hide the start button after clicking
-  startBtn.style.display = 'none';
-
+function createplayer() {
+  return {
+    score: 0,
+    choice: "",
+    scoredisplay:0,
+    choicedisplay:""
+  };
 }
 
-// 3. Attach the event listener
-startBtn.addEventListener('click', startGame);
+const player = createplayer();
+const com = createplayer();    
+function startGame() {  
+  winningtext.innerHTML="";
+  startBtn.classList.toggle('hidden');
+  const displaychoice = document.createElement('div');
+  const playerchoice = document.createElement('p');
+  const comchoiche = document.createElement('p');
+  const window = document.getElementById('window-body')
+    for (let i=1 ; i<'4' ; i++){
+      const numround= document.createElement('button');
+      numround.classList.add('playround');
+      numround.dataset.index=i;
+      numround.textContent=i+'win first';
+      numround.addEventListener('click',(e)=>{
+        const cellIndex = parseInt(e.target.getAttribute('data-index'));
+        const allroundbutton = document.querySelectorAll('.playround');
 
-// Listen for the "Enter" key anywhere on the page
-// FIXED: Listen for the "Enter" key to completely wipe the game back to the absolute start
+        allroundbutton.forEach(button=>{
+          button.remove();
+        })
+        winningscore=cellIndex;
+        prepareGame();
+      })
+      windows.appendChild(numround);
+    };
+    
+      
+}
+startBtn.addEventListener('click', startGame);
+windows.addEventListener('click',(event)=>{
+    if(event.target.classList.contains('game-key')){
+       player.choice = event.target.dataset.action;
+       com.choice = getComputerChoice();
+      Playround( player, com);
+      console.log(`com chose: ${com.choice}`);
+      console.log(`Player chose: ${player.choice}`);
+    }
+  })
+
 window.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
 
-    event.preventDefault();
+        event.preventDefault();
     
     // 1. Show the start button again
-    startBtn.style.display = 'inline-block';
+       startBtn.classList.toggle('hidden');
     
     // 2. Hide the game buttons (Gunting, Kertas, Batu)
-    const gameButtons = document.querySelectorAll('.game-btn');
-    gameButtons.forEach(btn => {
-      btn.style.display = 'none';
-    });
+        const allroundbutton = document.querySelectorAll('.playround');
 
-    // 3. Hide the mode buttons (they should only show AFTER clicking Start Game)
-    threebtn.style.display = 'none';
-    fivebtn.style.display = 'none';
-    
-    // 4. Clear the text alert
+        allroundbutton.forEach(button=>{
+          button.remove();
+        });
+
+        const gamebtn = document.querySelectorAll('.game-key');
+        gamebtn.forEach(button =>{button.remove();
+
+        });
     winningtext.innerText = "";
-   
-    // 5. Hard reset all data back to clean slate
     score = 0;
     comscore = 0;
-    winningscore = 9 ; // Strictly lowercase
-    
-     // Force HTML scoreboard back to 0 - 0
+    winningscore = 9 ; 
     console.log("Game reset to start state.");
      displayscore();
   }
@@ -82,136 +125,72 @@ function getComputerChoice() {
   }
 }
 
-// Example usage:
-
 function Playround( humanChoice , ComputerChoice ){
-
-    if (humanChoice === ComputerChoice){
+  if (humanChoice.choice === ComputerChoice.choice){
         console.log("draw");
-
-    }
-
-    const win ={
-        rock : "scissors" ,
-        paper : "rock" ,
-        scissors : "paper" ,
-    
-    };
-
-    if (win[humanChoice] === ComputerChoice) {
-      score ++ ;
+    } else if (win[humanChoice.choice] === ComputerChoice.choice) {
+      player.score ++ ;
         console.log("player wins");
-      
-      ;
     } else {
-      comscore++;
+      com.score ++;
         console.log("you lose");
       }
-        
-      console.log(score ,comscore);
-            playerchoice.innerText=humanChoice;
-      comchoice.innerText=ComputerChoice;
+      console.log(player.score ,com.score);
+      //playerchoice.innerText=humanChoice.choice;
+      //comchoice.innerText=ComputerChoice.choice;
       displayscore();
       checkWinCondition();
-
-
     }
-    
-
-batuBtn.addEventListener("click", () => {
-    humanChoice = "rock";
-    const ComputerChoice = getComputerChoice();
-   console.log("You chose: " + humanChoice + " | Computer chose: " + ComputerChoice);
-     Playround(humanChoice ,ComputerChoice);
-    ;
-    // You can call your playRound(humanChoice, getComputerChoice()) here!
-});
-
-kertasBtn.addEventListener("click", () => {
-    humanChoice = "paper";
-      const ComputerChoice = getComputerChoice();
-console.log("You chose: " + humanChoice + " | Computer chose: " + ComputerChoice);
-     Playround(humanChoice ,ComputerChoice);
-});
-
-guntingBtn.addEventListener("click", () => {
-    humanChoice = "scissors";
-      const ComputerChoice = getComputerChoice();
-console.log("You chose: " + humanChoice + " | Computer chose: " + ComputerChoice);
-     Playround(humanChoice ,ComputerChoice);
-     
-})
-
-
-function bestofthree() {
-
-  winningscore = 2;
-  prepareGame();
-}
-
-threebtn.addEventListener('click', bestofthree);
-
-function bestoffive() {
-
-  winningscore= 3 ;
-prepareGame();
-
-}
-
-fivebtn.addEventListener('click', bestoffive);
-
 function checkWinCondition() {
   // Instead of checking === 3 or === 5, it checks the variable
-  if (score === winningscore) {
+  if (player.score === winningscore) {
     console.log(`You win the match!`);
     winningtext.innerText=("You win the match!");
     resetGame();
 
-  } else if (comscore === winningscore) {
+  } else if (com.score === winningscore) {
     console.log(`Computer wins the match!`);
     winningtext.innerText=("you lost the match!");
     resetGame();
   }
 }
-
-// Both buttons use this exact same setup function now!
 function prepareGame() {
-  guntingBtn.style.display = 'inline-block';
-  kertasBtn.style.display = 'inline-block';
-  batuBtn.style.display = 'inline-block';
+  const choice=['scissors' , 'paper' , 'rock']
 
-  threebtn.style.display = 'none';
-  fivebtn.style.display = 'none'; 
+  choice.forEach(choice=>{
+    const btn= document.createElement('button');
+    btn.textContent=choice;
+    btn.classList.add('game-key');
+    btn.dataset.action=choice;
+    windows.appendChild(btn);
+  })
+
   winningtext.innerText=("");
-
-  score = 0;
-  comscore = 0;
+  player.score = 0;
+  com.score = 0;
 }
 
 function resetGame() {
-  // 1. Hide the weapon buttons again
-  guntingBtn.style.display = 'none';
-  kertasBtn.style.display = 'none';
-  batuBtn.style.display = 'none';
+startBtn.classList.toggle('hidden');
 
-  // 2. Bring back the Mode buttons so they can play again
-  threebtn.style.display = 'inline-block';
-  fivebtn.style.display = 'inline-block';
-
-  // 3. Wipe the memory clean
-  score = 0;
-  comscore = 0;
-  winningscore = 0;
+  player.score = 0;
+  com.score = 0;
+  winningscore = 9;
   
   resetdisplay();
   displayscore();
- 
+ const gamebtn = document.querySelectorAll('.game-key');
+ gamebtn.forEach(button =>{button.remove();
+ });
 }
 function displayscore(){
-  playerscoredisplay.innerText = score ;
-  comscoredisplay.innerText = comscore ;
+  //playerscoredisplay.innerText = player.score ;
+  //comscoredisplay.innerText = com.score ;
 }
 function resetdisplay(){
-  playerchoice.innerText="";
-  comchoice.innerText="";
+  //playerchoice.innerText="";
+  //comchoice.innerText="";
 }
+})();
+
+

@@ -7,30 +7,73 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Rock Paper Scissor</h1>
-    <p>Game interface goes here.</p>
-    
-    <div id = displayscorepage>
-    <div id =score>
-        <div id =textscoringpage></div>
-        <div id="yourScoreTextID" class="score"></div><div id = computerScoreTextID class="score"></div><br>
-        <div id="yourchoice"></div><div id="comchoice"></div>
-    </div>
-</div>
+	
+		<div class="container">
+			<div class="sidebar" id="sidebar">
+		<button id="sidebarbtn" class="dashboard"><img src="picture/symbol-evil-twin.png" alt="eviltwinsymbol" width="40" height="40"></button>
+        <P>home</P>
+        <p>profile</p>
+        <p>massage</p>
+        <p>histori</p>
+        <p>task</p>
+        <p>comunity</p>
+        <p>seting</p>
+        <p>support</p>
+        <p>privacy</p>
+			</div>
+			<div class="mainbar">
+				<div class="header-mainbar">
+					<div class="searchbar">
+                <p>&#128269;</p>
+				<p><span id="day"></span>/<span id="date-time"></span><span id="month"></span><span id="year"></span></p>
+                <input type="text" class="search-input" placeholder="Search..." />
+                <p>&#128276;</p>
+                <img src="picture/eviltwin.png" width="45" height="45" alt="Evil☆Twin" />
+                <h2>Evil☆Twin</h2>
+            </div>
+			<div class="profile">
+              <div class="profile-info">
+                <img src="picture/eviltwin.png" width="75" height="75" alt="Evil☆Twin" />
+                <div class="profile-details">
+                  <p>hello there</p>
+                  <h2>Evil☆Twin(ki-sikil and lil-la)</h2>
+                </div>
+              </div>
+              <div class="buttonplace">
+                <button class="profile-button">profile</button>
+                <button class="logout-button"  >logout</button>
+                <button class="settings-button">Settings</button>
+              </div>
+            </div>
+				</div>
+				<div class="main-mainbar">
+					<div class="main">
+						<div class="card">
+							<main id="main">
+								<div class="playgame" id="playgame">
+                                            <div id =textscoringpage>
+                                                <p>welcome</p>
+                                            </div>
+                                        
+								</div>
+									                                                                                                                     
+                                <div id="window-body">
+                                    <button id="startgame">startgame</button>
+                                </div>
+                                    
+							</main>
+						</div>
+						<div class="card2">
+							<section id="about">
+							<h2>About</h2>
+							<p>play the game rock-paper-scissor.</p>
+							</section>
+						</div>
+					</div>
 
-    <div id="game-window">
-        <div id="window-header">
-            <div id="window-body">
-                <button id="gunting" class="game-btn">Gunting</button>
-                <button id="kertas" class="game-btn">Kertas</button>
-                <button id="batu" class = "game-btn">Batu</button>
-                <button id="bestofthree" class="bestof">best of three</button>
-                <button id="bestoffive" class="bestof">best of five</button>
-                <button id="startgame">startgame</button>
-        </div>
-    </div>
-</div>
-
-<script src="script.js"></script>
+				</div>
+			</div>
+		</div>
+        <script src="script.js"></script>
 </body>
 </html>
