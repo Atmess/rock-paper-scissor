@@ -22,11 +22,26 @@ const sidebar = (() => {
 })();
 // 1. Get the buttons from the DOM
 const rockscissorgame= (()=>{
+
+
 const windows = document.getElementById('window-body')
 const startBtn = document.getElementById('startgame');
 const winningtext = document.getElementById('textscoringpage');
+const displaychoice = document.createElement('div');
+const playerchoice = document.createElement('div');
+const comchoiche = document.createElement('div');
+const displayscor= document.createElement('div');
+const playerscore = document.createElement('div');
+const comscore = document.createElement('div');
+const display= document.getElementById('display');
 
 
+display.appendChild(displaychoice);
+display.appendChild(displayscor);
+displaychoice.appendChild(playerchoice);
+displaychoice.appendChild(comchoiche);
+displayscor.appendChild(playerscore);
+displayscor.appendChild(comscore);
 
 let winningscore=0;
 
@@ -39,19 +54,13 @@ function createplayer() {
   return {
     score: 0,
     choice: "",
-    scoredisplay:0,
-    choicedisplay:""
   };
 }
 
 const player = createplayer();
 const com = createplayer();    
 function startGame() {  
-  winningtext.innerHTML="";
   startBtn.classList.toggle('hidden');
-  const displaychoice = document.createElement('div');
-  const playerchoice = document.createElement('p');
-  const comchoiche = document.createElement('p');
   const window = document.getElementById('window-body')
     for (let i=1 ; i<'4' ; i++){
       const numround= document.createElement('button');
@@ -70,7 +79,6 @@ function startGame() {
       })
       windows.appendChild(numround);
     };
-    
       
 }
 startBtn.addEventListener('click', startGame);
@@ -104,8 +112,8 @@ window.addEventListener("keydown", (event) => {
 
         });
     winningtext.innerText = "";
-    score = 0;
-    comscore = 0;
+    player.score=0;
+    com.score = 0;
     winningscore = 9 ; 
     console.log("Game reset to start state.");
      displayscore();
@@ -136,8 +144,8 @@ function Playround( humanChoice , ComputerChoice ){
         console.log("you lose");
       }
       console.log(player.score ,com.score);
-      //playerchoice.innerText=humanChoice.choice;
-      //comchoice.innerText=ComputerChoice.choice;
+      playerchoice.innerText = `You chose: ${humanChoice.choice}`;
+      comchoiche.innerText = `Computer chose: ${ComputerChoice.choice}`;
       displayscore();
       checkWinCondition();
     }
@@ -164,10 +172,10 @@ function prepareGame() {
     btn.dataset.action=choice;
     windows.appendChild(btn);
   })
-
-  winningtext.innerText=("");
+  winningtext.innerText = "";
   player.score = 0;
   com.score = 0;
+  displayscore();
 }
 
 function resetGame() {
@@ -184,13 +192,16 @@ startBtn.classList.toggle('hidden');
  });
 }
 function displayscore(){
-  //playerscoredisplay.innerText = player.score ;
-  //comscoredisplay.innerText = com.score ;
+  playerscore.innerText = `Player Score: ${player.score}`;
+  comscore.innerText = `Computer Score: ${com.score}`;
 }
 function resetdisplay(){
-  //playerchoice.innerText="";
-  //comchoice.innerText="";
+ playerchoice.innerText = "";
+  comchoiche.innerText = "";
+  playerscore.innerText = "";
+  comscore.innerText = "";
 }
+
 })();
 
 
