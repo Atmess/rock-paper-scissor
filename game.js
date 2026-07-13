@@ -1,29 +1,4 @@
-/*(() => {
-                const yearstime = document.getElementById('year');
-                const monthtime = document.getElementById('month');
-                const daytime = document.getElementById('day');
-                const datetime = document.getElementById('date-time');
-
-                const now = new Date();
-
-                yearstime.textContent = now.getFullYear(); 
-                monthtime.textContent = now.toLocaleString('default', { month: 'short' }) ;
-                daytime.textContent = now.toLocaleString('default', { weekday: 'short' }) ;
-                datetime.textContent = now.getDate();
-})();*/
-/*(() => {
-                const toggleBtn = document.getElementById('sidebarbtn');
-                const sidebar = document.getElementById('sidebar');
-
-                toggleBtn.addEventListener('click', function() {
-                // Toggle the 'open' class on the sidebar
-                sidebar.classList.toggle('open');
-                // Listen for a click on the button
-                });   
-
-})();
-// 1. Get the buttons from the DOM
-const rockscissorgame= (()=>{
+export function initGame (){
 
 
 const windows = document.getElementById('window-body')
@@ -92,7 +67,7 @@ function startGame() {
           button.remove();
         })
         winningscore=cellIndex;
-         gameover = false;
+        
         prepareGame();
       })
       windows.appendChild(numround);
@@ -101,6 +76,7 @@ function startGame() {
 }
 startBtn.addEventListener('click', startGame);
 windows.addEventListener('click',(event)=>{
+      if (gameover) return;
     if(event.target.classList.contains('game-key')){
        player.choice = event.target.dataset.action;
        com.choice = getComputerChoice();
@@ -152,7 +128,6 @@ function getComputerChoice() {
 }
 
 function Playround( humanChoice , ComputerChoice ){
-  if (gameover) return;
   if (humanChoice.choice === ComputerChoice.choice){
         console.log("draw");
     } else if (win[humanChoice.choice] === ComputerChoice.choice) {
@@ -205,7 +180,7 @@ startBtn.classList.toggle('hidden');
   player.reset();
   com.reset();
   winningscore = 9;
-  
+   gameover = false;
   resetdisplay();
   displayscore();
  const gamebtn = document.querySelectorAll('.game-key');
@@ -223,15 +198,4 @@ function resetdisplay(){
   comscore.innerText = "";
 }
 
-})();
-*/
-import { initDate } from './date.js';
-import { initSidebar } from './sidebar.js';
-import { initGame } from './game.js';
-
-// It's good practice to wait for the DOM to load before running scripts
-document.addEventListener('DOMContentLoaded', () => {
-    initDate();
-    initSidebar();
-    initGame();
-});
+}
