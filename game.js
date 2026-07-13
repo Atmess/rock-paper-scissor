@@ -30,27 +30,32 @@ const win ={
         paper : "rock" ,
         scissors : "paper" ,};
 
-class createplayer {
-  consturcor(name) {
+class Player {
+    #score =0;
+  constructor(name) {
     this.name = name;
-    this.score = 0;
+    this.#score = 0;
     this.choice= "";
-  };
+  }
   choice(newchoice){
     this.choice= newchoice;
-  };
+  }
   winround(score){
-    this.score++;
+    this.#score++;
     console.log(`${this.name} won the round! Total score: ${this.score}`);
-  };
+  }
   reset() {
-    this.score = 0;
+    this.#score = 0;
     this.choice = "";
-  };
+  }
+
+  get score(){
+    return this.#score;
+  }
 }
 
-const player = new createplayer('player');
-const com = new createplayer('com');    
+const player = new Player('player');
+const com = new Player('com');    
 function startGame() {  
   startBtn.classList.toggle('hidden');
   const window = document.getElementById('window-body')
@@ -106,8 +111,8 @@ window.addEventListener("keydown", (event) => {
 
         });
     winningtext.innerText = "";
-    player.reset()=0;
-    com.reset() = 0;
+    player.reset();
+    com.reset() ;
     winningscore = 9 ; 
     console.log("Game reset to start state.");
      displayscore();
